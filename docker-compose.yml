@@ -1,0 +1,25 @@
+version: '3.4'
+services:
+  server:
+    build: ./server
+    networks:
+      - test_net
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+
+  client:
+    build: ./client
+    depends_on:
+      - server
+    networks:
+      - test_net
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+
+networks:
+  test_net:
+    driver: bridge
+    ipam:
+      driver: default
